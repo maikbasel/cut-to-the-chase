@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "maikb-skills",
+  "owner": {
+    "name": "Maik Basel",
+    "email": "maik.basel@gmx.de",
+    "url": "https://github.com/maikbasel"
+  },
+  "metadata": {
+    "description": "Plugins by Maik Basel."
+  },
+  "plugins": [
+    {
+      "name": "cut-to-the-chase",
+      "source": "./",
+      "description": "Forces the agent to get to the point. Answer first, no filler, no AI tells, and never an em dash.",
+      "license": "MIT",
+      "homepage": "https://github.com/maikbasel/cut-to-the-chase",
+      "repository": "https://github.com/maikbasel/cut-to-the-chase",
+      "author": {
+        "name": "Maik Basel",
+        "url": "https://github.com/maikbasel"
+      }
+    }
+  ]
+}

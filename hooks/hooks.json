@@ -1,0 +1,18 @@
+{
+  "description": "Injects the cut-to-the-chase rules at the start of every session.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat \"${CLAUDE_PLUGIN_ROOT}/RULES.md\"",
+            "timeout": 5,
+            "statusMessage": "Loading cut-to-the-chase..."
+          }
+        ]
+      }
+    ]
+  }
+}

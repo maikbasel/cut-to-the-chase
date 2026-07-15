@@ -1,0 +1,20 @@
+{
+  "name": "cut-to-the-chase",
+  "version": "0.1.0",
+  "description": "Forces the agent to get to the point. Answer first, no filler, no AI tells, and never an em dash.",
+  "author": {
+    "name": "Maik Basel",
+    "email": "maik.basel@gmx.de",
+    "url": "https://github.com/maikbasel"
+  },
+  "license": "MIT",
+  "keywords": [
+    "prose",
+    "brevity",
+    "writing-style",
+    "em-dash",
+    "ai-slop"
+  ],
+  "homepage": "https://github.com/maikbasel/cut-to-the-chase",
+  "repository": "https://github.com/maikbasel/cut-to-the-chase"
+}

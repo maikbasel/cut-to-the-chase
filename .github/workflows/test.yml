@@ -1,0 +1,43 @@
+name: test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Manifests are valid JSON
+        run: |
+          for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json; do
+            jq empty "$f" || exit 1
+          done
+
+      - name: Plugin name is kebab-case and matches the marketplace entry
+        run: |
+          name=$(jq -r .name .claude-plugin/plugin.json)
+          echo "$name" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || {
+            echo "plugin name '$name' is not kebab-case"; exit 1; }
+          entry=$(jq -r '.plugins[0].name' .claude-plugin/marketplace.json)
+          test "$name" = "$entry" || {
+            echo "plugin.json name '$name' != marketplace entry '$entry'"; exit 1; }
+
+      - name: Version lives only in plugin.json
+        run: |
+          jq -e '.plugins[0] | has("version")' .claude-plugin/marketplace.json >/dev/null && {
+            echo "marketplace entry sets version; plugin.json silently wins. Remove it."; exit 1; }
+          exit 0
+
+      - name: Stop hook behaves
+        run: bash tests/test-hook.sh
+
+      - name: Practice what we preach
+        run: |
+          if grep -rn '—' --include='*.md' .; then
+            echo "an em dash reached the docs of the anti-em-dash plugin"
+            exit 1
+          fi
