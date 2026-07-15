@@ -14,7 +14,37 @@ they are in context before the first token.
 /plugin install cut-to-the-chase@maikb-skills
 ```
 
-Nothing to configure. It is on from the next session.
+Nothing to configure. Run `/reload-plugins` to use it in the current session, or
+it loads on your next one.
+
+## Turning it off
+
+Try it off for one session before removing it:
+
+```
+/plugin disable cut-to-the-chase@maikb-skills
+/reload-plugins
+```
+
+That leaves it installed. Re-enable with `/plugin enable cut-to-the-chase@maikb-skills`.
+
+To remove the plugin but keep the marketplace:
+
+```
+/plugin uninstall cut-to-the-chase@maikb-skills
+```
+
+To remove both:
+
+```
+/plugin marketplace remove maikb-skills
+```
+
+Removing the marketplace uninstalls every plugin you got from it. Since this
+marketplace only ships one plugin, that's the same thing here.
+
+Nothing to clean up by hand. The plugin writes no files, sets no config, and
+leaves nothing behind outside `~/.claude/plugins/`.
 
 ## Does it work
 
@@ -42,9 +72,12 @@ numbers above.
 
 ## What it enforces
 
-**Shape.** Sentence one answers the question. Hard ceiling of 150 words, which it
-misses more often than it hits, but which anchors replies near 200 instead of
-500. The ceiling lifts only when you explicitly ask for a report or a walkthrough.
+**Shape.** Sentence one answers the question, then a hard ceiling of 150 words.
+The ceiling is an anchor, not a limit. Replies land near 200 rather than at 150,
+but without a number they land at 479. An earlier version said "only what changes
+the reader's next action", with no number, and produced 310 words scattered from
+250 to 370. The number does the work. The ceiling lifts only when you explicitly
+ask for a report or a walkthrough.
 
 **No em dashes.** The rule is not "delete the character". Swapping in a comma is
 the same failure wearing different punctuation. Where a dash wants to go, there
