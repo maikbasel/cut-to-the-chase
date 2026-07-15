@@ -17,34 +17,14 @@ they are in context before the first token.
 Nothing to configure. Run `/reload-plugins` to use it in the current session, or
 it loads on your next one.
 
-## Turning it off
-
-Try it off for one session before removing it:
-
-```
-/plugin disable cut-to-the-chase@maikb-skills
-/reload-plugins
-```
-
-That leaves it installed. Re-enable with `/plugin enable cut-to-the-chase@maikb-skills`.
-
-To remove the plugin but keep the marketplace:
+## Removing it
 
 ```
 /plugin uninstall cut-to-the-chase@maikb-skills
-```
-
-To remove both:
-
-```
 /plugin marketplace remove maikb-skills
 ```
 
-Removing the marketplace uninstalls every plugin you got from it. Since this
-marketplace only ships one plugin, that's the same thing here.
-
-Nothing to clean up by hand. The plugin writes no files, sets no config, and
-leaves nothing behind outside `~/.claude/plugins/`.
+To keep it installed but off: `/plugin disable cut-to-the-chase@maikb-skills`
 
 ## Does it work
 
