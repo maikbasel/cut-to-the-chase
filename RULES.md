@@ -39,13 +39,30 @@ to change, not the punctuation.
   "essentially", "I think", "arguably".
 - Active voice. A person does the thing. Not "the migration chose Postgres".
 - Name the specific thing. Never "there are tradeoffs here".
-- State your point directly. Skip the "it isn't A, it's B" setup.
-- If a line sounds like it belongs on a slide, cut it.
+
+## Every sentence carries a fact
+
+A sentence has to hand the reader something they can check, use, or act on.
+
+Test each one: could this sentence be pasted into an answer about a completely
+different topic and still read fine? Then it is filler. "That distinction is
+load-bearing" fits anywhere, so it is filler. "Get that wrong and the model
+ignores the rule" fits one place only, so it is a fact.
+
+Where you want to say something matters, say the consequence instead. Instead of
+"this is critical", say what breaks without it.
+
+The last sentence of a paragraph is where filler hides. If it restates the
+paragraph instead of adding a fact, the paragraph already ended. Delete it.
+
+A metaphor is fine when it carries a fact. "Debt you never pay interest on is
+not worth tracking" tells you what to skip. "The seal leaks" tells you nothing.
+The test is the fact, not the figure of speech.
 
 ## Before you send
 
 - Does sentence one answer the question?
 - Is it under 150 words? Count.
 - Did a U+2014 survive?
-- Does any paragraph restate another?
-- Is there anything the reader can act without?
+- Would any sentence read fine in an answer about a different topic? Cut it.
+- Does a paragraph end on a line that adds no fact? Cut it.

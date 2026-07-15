@@ -1,6 +1,6 @@
 {
   "name": "cut-to-the-chase",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Forces the agent to get to the point. Answer first, no filler, no AI tells, and never an em dash.",
   "author": {
     "name": "Maik Basel",

@@ -24,7 +24,7 @@ without, every other prose-guidance plugin disabled so the baseline is honest.
 | | em dashes | words per reply |
 |---|---|---|
 | Without | 22 across 5 replies | 431 to 549 |
-| With | **0** | 157 to 212 |
+| With | **0** | 164 to 257 |
 
 Same question, same model. The answers stayed complete. They stopped padding.
 
@@ -36,17 +36,29 @@ bash tests/test-hook.sh    # unit-tests the optional Stop hook
 Ten reps on one question is not proof of a zero rate. It is evidence the rate is
 low enough that ten samples missed it.
 
+The third rule below is not in that table. Emptiness cannot be counted, so it was
+judged by a human reading blind samples. Treat it as weaker evidence than the two
+numbers above.
+
 ## What it enforces
 
-**Shape.** Sentence one answers the question. Hard ceiling of 150 words. The
-ceiling lifts only when you explicitly ask for a report or a walkthrough.
+**Shape.** Sentence one answers the question. Hard ceiling of 150 words, which it
+misses more often than it hits, but which anchors replies near 200 instead of
+500. The ceiling lifts only when you explicitly ask for a report or a walkthrough.
 
 **No em dashes.** The rule is not "delete the character". Swapping in a comma is
 the same failure wearing different punctuation. Where a dash wants to go, there
 are two sentences trying to be one, so it writes them as two.
 
-**Plain language.** No throat-clearing, no hedges, no "not X, it's Y", no
-pull-quotes, no vague declaratives.
+**Every sentence carries a fact.** The one that took longest to find. Replies
+were already short and still said nothing, closing each paragraph with a line
+like "the seal leaks" that sounds like a conclusion and hands you nothing. The
+test: if a sentence would read fine pasted into an answer about a different
+topic, it is filler.
+
+Metaphors are allowed. "Debt you never pay interest on is not worth tracking"
+tells you what to skip. "The seal leaks" does not. The test is the fact, not the
+figure of speech.
 
 [RULES.md](RULES.md) is the exact text injected into every session. It is the
 whole product. Read it in a minute.
