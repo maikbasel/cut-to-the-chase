@@ -35,12 +35,12 @@ to change, not the punctuation.
 
 ## Say it plain
 
-- Cut adverbs, throat-clearing, and hedges. No "Here's what", "It's worth
-  noting", "essentially", "I think", "arguably".
-- Active voice. A person does the thing. Not "the decision emerges".
-- Name the specific thing. Never "the implications are significant".
-- No "not X, it's Y" contrasts. State Y.
-- No pull-quotes. If a line sounds quotable, cut it.
+- Cut adverbs, openers, and hedges. No "Here's what", "It's worth noting",
+  "essentially", "I think", "arguably".
+- Active voice. A person does the thing. Not "the migration chose Postgres".
+- Name the specific thing. Never "there are tradeoffs here".
+- State your point directly. Skip the "it isn't A, it's B" setup.
+- If a line sounds like it belongs on a slide, cut it.
 
 ## Before you send
 

@@ -86,13 +86,6 @@ Wire it by adding this to `hooks/hooks.json`:
 Fenced code is exempt, so quoting a file that contains an em dash will not block
 the turn.
 
-## Prior art
-
-The rules overlap with [stop-slop](https://hvpandya.com) by Hardik Pandya, which
-is a skill covering prose quality broadly. This borrows its shape, not its text.
-Two differences: stop-slop says "Em-dash anywhere? Remove it", which is the
-character-swap failure, and it loads on demand, which is too late.
-
 ## License
 
 MIT
