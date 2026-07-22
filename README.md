@@ -1,4 +1,4 @@
-# cut-to-the-chase
+# Cut to the Chase!
 
 Makes Claude answer the question and stop. No filler, no AI tells, no em dashes.
 
@@ -28,9 +28,10 @@ To keep it installed but off: `/plugin disable cut-to-the-chase@maikb-skills`
 
 ## What it enforces
 
-**Answer first, then stop.** Sentence one answers the question. Hard ceiling of
-150 words, which lifts only when you explicitly ask for a report or a
-walkthrough. In practice replies land near 200 words instead of 479.
+**Answer first, then stop.** Sentence one answers the question. The reply leads
+with the answer or correction and cuts opening validation, no "Great question",
+no restating your point back. No word ceiling: a reply runs as long as the facts
+it carries and no longer, then stops. Padding and summary get cut, not detail.
 
 **No em dashes.** Not by deleting the character. Swapping in a comma is the same
 failure with different punctuation. Where a dash wants to go there are two
@@ -51,15 +52,26 @@ tells you what to skip. "The seal leaks" does not.
 Ten runs of one question, five with the plugin and five without, every other
 prose-guidance plugin disabled.
 
-| | em dashes | words per reply |
-|---|---|---|
-| Without | 22 across 5 replies | 431 to 549 |
-| With | 0 | 164 to 257 |
+|         | em dashes           | words per reply |
+|---------|---------------------|-----------------|
+| Without | 28 across 5 replies | 333 to 444      |
+| With    | 0                   | 265 to 323      |
 
-Reproduce with `bash tests/run.sh`, which needs a logged-in `claude` CLI.
+These counts are from v0.2, which capped replies at 150 words. v0.3 drops the
+ceiling in favor of fact-density, so word counts will run higher. Re-run `node
+tests/benchmark.mjs` (needs a logged-in `claude` CLI) to refresh the numbers.
+The em dash result holds: zero either way.
 
 The em dash and word counts are machine-checked. The third rule is not, since
 emptiness cannot be counted.
+
+For a graded A/B eval, `tests/promptfoo/` runs the same baseline-vs-plugin
+comparison through [promptfoo](https://promptfoo.dev): deterministic checks for
+em dashes and opening validation, plus an LLM-rubric for answer-first and
+fact-density. The rubric is phrased binary so the judge's own verbosity bias
+does not reward the longer reply. Run it with `npx promptfoo@latest eval -c
+tests/promptfoo/promptfooconfig.yaml` (needs the same logged-in `claude` CLI, no
+API key).
 
 ## How it works
 
@@ -67,30 +79,14 @@ emptiness cannot be counted.
 SessionStart hook  ->  cat RULES.md  ->  stdout becomes session context
 ```
 
-No scripts, no runtime, no dependencies.
+The rules inject with no dependencies. The Stop hook that blocks em dashes needs
+`jq`.
 
-## Optional: block em dashes hard
+## Block em dashes hard
 
-`hooks/no-em-dash.sh` is a `Stop` hook that blocks any reply containing an em
-dash and tells the model to rewrite rather than substitute. It ships unwired,
-because the rules alone already score zero and the hook needs `jq` on your
-machine.
-
-Wire it by adding this to `hooks/hooks.json`:
-
-```json
-"Stop": [
-  {
-    "hooks": [
-      {
-        "type": "command",
-        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/no-em-dash.sh\"",
-        "timeout": 5
-      }
-    ]
-  }
-]
-```
+`hooks/no-em-dash.sh` is a `Stop` hook, wired in by default, that blocks any
+reply containing an em dash and tells the model to rewrite rather than
+substitute. It needs `jq` on your machine.
 
 Fenced code is exempt, so quoting a file that contains an em dash will not block
 the turn.

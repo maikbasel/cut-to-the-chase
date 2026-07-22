@@ -1,0 +1,60 @@
+# A/B eval for the cut-to-the-chase plugin.
+# Run:  npx promptfoo@latest eval -c tests/promptfoo/promptfooconfig.yaml
+# View: npx promptfoo@latest view
+# Needs a logged-in `claude` CLI. No ANTHROPIC_API_KEY: generation and grading
+# both go through the CLI (subscription auth).
+description: cut-to-the-chase A/B eval
+
+prompts:
+  - "Answer this question for a colleague: Why do small teams often regret adopting microservices?"
+  - "A teammate asks whether they should add a caching layer to a read-heavy endpoint. Advise them."
+
+providers:
+  - id: file://claudeProvider.js
+    label: baseline
+    config:
+      plugin: false
+  - id: file://claudeProvider.js
+    label: with-plugin
+    config:
+      plugin: true
+
+defaultTest:
+  options:
+    # Grade rubrics with the same CLI (plugin off) so no separate API key is needed.
+    provider:
+      id: file://claudeProvider.js
+      config:
+        plugin: false
+  assert:
+    # 1. No em dash. Deterministic. Baseline is expected to fail; with-plugin should pass.
+    - type: not-icontains
+      value: "—"
+
+    # 2. No opening validation (sycophancy tell), checked on the first line. Deterministic.
+    - type: javascript
+      value: |
+        const first = String(output).trim().split("\n")[0];
+        const bad = /\b(great|excellent|good|interesting)\s+question|you'?re\s+(absolutely\s+)?right|happy\s+to\s+help|glad\s+you\s+asked|certainly[!,.]/i;
+        return bad.test(first)
+          ? { pass: false, score: 0, reason: `opens with validation: "${first.slice(0, 60)}"` }
+          : { pass: true, score: 1, reason: "no opening validation" };
+
+    # 3. Word count. Reports only, never fails: v0.3 dropped the ceiling.
+    - type: javascript
+      value: |
+        const n = String(output).trim().split(/\s+/).filter(Boolean).length;
+        return { pass: true, score: 1, reason: `words=${n}` };
+
+    # 4. Answer-first + fact-density. LLM-judged, phrased binary to dodge the
+    #    length/verbosity bias a holistic "which is better" rubric would inherit.
+    - type: llm-rubric
+      value: |
+        Judge ONLY these two properties. Ignore length, tone, and polish.
+        (a) The first sentence directly answers the question. Not context, not a
+            restatement of the question, not "Great question", not a plan of what
+            the reply will do.
+        (b) Every sentence states a checkable, topic-specific fact. Test each one:
+            could it be pasted into an answer on a completely different topic and
+            still read fine? If yes, it is filler and (b) fails.
+        Pass ONLY if both (a) and (b) hold.
